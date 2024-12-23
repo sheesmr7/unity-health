@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor & Patient Login/Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+         body {
+        background: url('/img/bg-unity3.jpg') no-repeat center center fixed;  ./images/background.jpg'
+        background-size: cover;
+        }
+        .card {
+            margin-top: 50px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: none;
+        }
+        .form-control {
+            border-radius: 25px;
+        }
+        .btn-primary {
+            border-radius: 25px;
+            background-color: #28a745;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #218838;
+        }
+        .btn-outline-primary {
+            border-color: #28a745;
+            color: #28a745;
+        }
+        .btn-outline-primary.active, .btn-outline-primary:focus {
+            background-color: #28a745;
+            color: white;
+        }
+        .role-switch {
+            display: flex;
+            justify-content: space-between;
+        }
+        .role-switch button {
+            width: 48%;
+        }
+        .password-toggle {
+            position: relative;
+        }
+        .password-toggle .toggle-eye {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card" id="login-card">
+                <div class="card-body">
+                    <h3 class="text-center mb-4">Login</h3>
+                    <div class="role-switch mb-4">
+                        <button id="doctor-login-btn" class="btn btn-outline-primary active">Doctor</button>
+                        <button id="patient-login-btn" class="btn btn-outline-primary">Patient</button>
+                    </div>
+                    <form id="login-form">
+                        <div class="mb-3">
+                            <input type="email" class="form-control" placeholder="Email" required>
+                        </div>
+                        <div class="mb-3 password-toggle">
+                            <input type="password" class="form-control" placeholder="Password" required>
+                            <span class="toggle-eye" onclick="togglePassword(this)">&#128065;</span>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                    </form>
+                    <p class="text-center mt-3">Don't have an account? <a href="#" id="register-link">Register</a></p>
+                </div>
+            </div>
+
+            <div class="card d-none" id="register-card">
+                <div class="card-body">
+                    <h3 class="text-center mb-4">Register</h3>
+                    <div class="role-switch mb-4">
+                        <button id="doctor-register-btn" class="btn btn-outline-primary active">Doctor</button>
+                        <button id="patient-register-btn" class="btn btn-outline-primary">Patient</button>
+                    </div>
+                    <form id="register-form">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" placeholder="Full Name" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" placeholder="Email" required>
+                        </div>
+                        <div class="mb-3 password-toggle">
+                            <input type="password" id="register-password" class="form-control" placeholder="Password" required>
+                            <span class="toggle-eye" onclick="togglePassword(this)">&#128065;</span>
+                        </div>
+                        <div class="mb-3 password-toggle">
+                            <input type="password" id="confirm-password" class="form-control" placeholder="Confirm Password" required>
+                            <span class="toggle-eye" onclick="togglePassword(this)">&#128065;</span>
+                        </div>
+                        <p id="password-error" class="text-danger d-none">Passwords do not match!</p>
+                        <button type="submit" class="btn btn-primary w-100">Register</button>
+                    </form>
+                    <p class="text-center mt-3">Already have an account? <a href="#" id="login-link">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const loginCard = document.querySelector('#login-card');
+    const registerCard = document.querySelector('#register-card');
+    const registerLink = document.querySelector('#register-link');
+    const loginLink = document.querySelector('#login-link');
+    const registerForm = document.querySelector('#register-form');
+    const passwordError = document.querySelector('#password-error');
+
+    registerLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        loginCard.classList.add('d-none');
+        registerCard.classList.remove('d-none');
+    });
+
+    loginLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        registerCard.classList.add('d-none');
+        loginCard.classList.remove('d-none');
+    });
+
+    const roleButtons = document.querySelectorAll('.role-switch button');
+    roleButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            roleButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+        });
+    });
+
+    function togglePassword(toggleIcon) {
+        const input = toggleIcon.previousElementSibling;
+        if (input.type === "password") {
+            input.type = "text";
+            toggleIcon.innerHTML = "&#128065;";
+        } else {
+            input.type = "password";
+            toggleIcon.innerHTML = "&#128065;";
+        }
+    }
+
+    // Validate password match on register form submit
+    registerForm.addEventListener('submit', (e) => {
+        const password = document.querySelector('#register-password').value;
+        const confirmPassword = document.querySelector('#confirm-password').value;
+
+        if (password !== confirmPassword) {
+            e.preventDefault();
+            passwordError.classList.remove('d-none');
+        } else {
+            passwordError.classList.add('d-none');
+        }
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
